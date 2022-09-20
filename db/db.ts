@@ -29,9 +29,10 @@ export const ingredients = {
 
 export const requests = [
   {
+    status: "Solicitado",
     name: "Matheus",
     meat: "Picanha",
-    breads: "Italiano Branco",
-    optional: ["Bacon", "Cebola"],
+    bread: "Italiano Branco",
+    optionais: [],
   },
 ];
