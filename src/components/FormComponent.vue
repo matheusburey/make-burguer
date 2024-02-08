@@ -1,59 +1,59 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { ingredients, requests } from "../../db/db";
+import { useToast } from "vue-toastification";
+import { GetIngredients, CreateNewBurger } from "@/api";
 
-const name = ref("");
-const bread = ref("");
-const meat = ref("");
-const optionais = ref([]);
+const toast = useToast();
+const ingredients = GetIngredients();
+const burgerForm = ref({
+  name: "",
+  bread: "",
+  meat: "",
+  opcionais: [],
+})
 
-async function createBurger(e: any) {
+async function submitBurgerOrder(e: any) {
   e.preventDefault();
   const data = {
     status: "Solicitado",
-    name: name.value,
-    bread: bread.value,
-    meat: meat.value,
-    optionais: optionais.value,
+    ...burgerForm
   };
-  requests.push(data);
+  CreateNewBurger(data);
+  toast.success("Pedido adicionado com sucesso!");
 }
 </script>
 <template>
   <div>
-    <p>Componente</p>
-    <div>
-      <form @submit="createBurger">
-        <div class="container-input">
-          <label for="name">Nome do cliente:</label>
-          <input type="text" name="name" id="name" v-model="name" placeholder="Digite seu nome" />
+    <form @submit="submitBurgerOrder">
+      <div class="container-input">
+        <label for="name">Nome do cliente:</label>
+        <input type="text" name="name" id="name" v-model="burgerForm.name" placeholder="Digite seu nome" />
+      </div>
+      <div class="container-input">
+        <label for="bread">Escolha o pão:</label>
+        <select name="bread" id="bread" v-model="burgerForm.bread">
+          <option v-for="bread in ingredients.breads" :key="bread.id" :value="bread.type">
+            {{ bread.type }}
+          </option>
+        </select>
+      </div>
+      <div class="container-input">
+        <label for="meat">Escolha a carne:</label>
+        <select name="meat" id="meat" v-model="burgerForm.meat">
+          <option v-for="meat in ingredients.meat" :key="meat.id" :value="meat.type">
+            {{ meat.type }}
+          </option>
+        </select>
+      </div>
+      <div class="container-input optional">
+        <label for="optional">Selecione os Opcionais:</label>
+        <div v-for="option in ingredients.optional" :key="option.id" class="checkbox">
+          <input type="checkbox" :name="option.type" v-model="burgerForm.opcionais" :value="option.type" />
+          <span>{{ option.type }}</span>
         </div>
-        <div class="container-input">
-          <label for="bread">Escolha o pão:</label>
-          <select name="bread" id="bread" v-model="bread">
-            <option v-for="bread in ingredients.breads" :key="bread.id" :value="bread.type">
-              {{ bread.type }}
-            </option>
-          </select>
-        </div>
-        <div class="container-input">
-          <label for="meat">Escolha a carne:</label>
-          <select name="meat" id="meat" v-model="meat">
-            <option v-for="meat in ingredients.meat" :key="meat.id" :value="meat.type">
-              {{ meat.type }}
-            </option>
-          </select>
-        </div>
-        <div class="container-input optional">
-          <label for="optional">Selecione os Opcionais:</label>
-          <div v-for="option in ingredients.optional" :key="option.id" class="checkbox">
-            <input type="checkbox" :name="option.type" v-model="optionais" :value="option.type" />
-            <span>{{ option.type }}</span>
-          </div>
-        </div>
-        <button type="submit">Cria Burger</button>
-      </form>
-    </div>
+      </div>
+      <button type="submit">Cria Burger</button>
+    </form>
   </div>
 </template>
 <style scoped>
