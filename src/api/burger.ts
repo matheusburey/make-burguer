@@ -1,10 +1,17 @@
-import { ingredients, requests } from "./db";
+import db from "./db";
 
 export const GetIngredients = () => {
-  return ingredients;
+  return db.ingredients;
 }
 
-export const CreateNewBurger = (data: any) => {
-  requests.push(data);
-  return requests
+export const CreateNewOrder = (data: any) => {
+  return db.addOrder(data);
+}
+
+export const GetOrders = () => {
+  return db.orders;
+}
+
+export const DeleteOrder = (orderId: number) => {
+  db.deleteOrder(orderId)
 }

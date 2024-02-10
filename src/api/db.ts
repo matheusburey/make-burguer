@@ -1,10 +1,10 @@
-export const status = [
+const status = [
   { id: 1, type: "Solicitado" },
   { id: 2, type: "Em produção" },
   { id: 3, type: "Finalizado" },
 ];
 
-export const ingredients = {
+const ingredients = {
   breads: [
     { id: 1, type: "Italiano Branco" },
     { id: 2, type: "Queijos" },
@@ -27,8 +27,9 @@ export const ingredients = {
   ],
 };
 
-export const requests = [
+const orders = [
   {
+    id: 1,
     status: "Solicitado",
     name: "Matheus",
     meat: "Picanha",
@@ -36,3 +37,25 @@ export const requests = [
     optionais: [],
   },
 ];
+
+class Database {
+  status=status
+  ingredients=ingredients
+  orders=orders
+
+  addOrder(data: any) {
+    const length = this.orders.length
+    const next_id = this.orders[length - 1].id + 1
+    data.id = next_id
+    this.orders.push(data)
+    return data;
+  }
+
+  deleteOrder(id: number) {
+    const filtered = this.orders.filter((order) => order.id !== id);
+    this.orders = filtered
+  }
+}
+
+const db = new Database();
+export default db;

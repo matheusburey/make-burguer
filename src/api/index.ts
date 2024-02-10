@@ -1,3 +1,3 @@
-import { GetIngredients, CreateNewBurger } from "./burger";
+import { GetIngredients, CreateNewOrder, GetOrders, DeleteOrder } from "./burger";
 
-export { GetIngredients, CreateNewBurger }
+export { GetIngredients, CreateNewOrder, GetOrders, DeleteOrder }

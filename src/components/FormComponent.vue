@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useToast } from "vue-toastification";
-import { GetIngredients, CreateNewBurger } from "@/api";
+import { GetIngredients, CreateNewOrder } from "@/api";
 
 const toast = useToast();
 const ingredients = GetIngredients();
@@ -16,9 +16,9 @@ async function submitBurgerOrder(e: any) {
   e.preventDefault();
   const data = {
     status: "Solicitado",
-    ...burgerForm
+    ...burgerForm.value
   };
-  CreateNewBurger(data);
+  CreateNewOrder(data);
   toast.success("Pedido adicionado com sucesso!");
 }
 </script>
